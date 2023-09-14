@@ -77,17 +77,54 @@ void criaVetorDiretor(float vetor[], float pontoVetor[], float vInicio[], float 
    vFim[2] = pontoVetor[2] + vetor[2] * -20;
 }
 
-float calculaZ(float ponto[], float vNormal[], float x, float y) 
+void intersecaoVetorPlano(float vetorNormal[3], float pontoPlano[3], float intersecao[3]) 
 {
-    return ponto[2] - (vNormal[0] * (x - ponto[0]) / vNormal[2]) - (vNormal[1] * (y - ponto[1]) / vNormal[2]);
+   float escalar = (vetorNormal[0] * pontoPlano[0] + vetorNormal[1] * pontoPlano[1] + vetorNormal[2] * pontoPlano[2]) 
+   / (vetorNormal[0]*vetorNormal[0] + vetorNormal[1]*vetorNormal[1] + vetorNormal[2]*vetorNormal[2]);
+
+   intersecao[0] = escalar * vetorNormal[0];
+   intersecao[1] = escalar * vetorNormal[1];
+   intersecao[2] = escalar * vetorNormal[2];
 }
 
-void criaPlanoGeral(float ponto[], float vNormal[], float p1[], float p2[], float p3[], float p4[])
+float tamanho(float A[3])
 {
-   p1[0] = -20, p1[1] = 20, p1[2] = calculaZ(ponto, vNormal, p1[0],  p1[1]);
-   p2[0] = -20, p2[1] = -20, p2[2] = calculaZ(ponto, vNormal, p1[0],  p1[1]);
-   p3[0] = 20, p3[1] = -20, p3[2] = -1 * calculaZ(ponto, vNormal, p1[0],  p1[1]);
-   p4[0] = 20, p4[1] = 20, p4[2] = -1 * calculaZ(ponto, vNormal, p1[0],  p1[1]);
+   return sqrt(A[0]*A[0] + A[1]*A[1] + A[2]*A[2]);
+}
+
+void escala(float A[3], float escala)
+{
+   for(int i = 0; i < 3; i++) 
+   {
+      A[i] *= escala;
+   }
+}
+
+void criaPlanoGeral(float vetorNormal[], float pontoPlano[], float ponto1[], float ponto2[], float ponto3[], float ponto4[]) 
+{
+   float B[3] = {1.0, 0.0, 0.0};
+   float C[3], D[3];
+
+   if(vetorNormal[0] == 1.0 && vetorNormal[1] == 0.0 && vetorNormal[2] == 0.0)
+   {
+      B[0] = 0.0; 
+      B[1] = 1.0;
+   }
+
+   produtoVetorial(vetorNormal, B, C);
+   produtoVetorial(vetorNormal, C, D);
+
+   float meio = 40.0 / 2.0;
+   escala(C, meio/tamanho(C));
+   escala(D, meio/tamanho(D));
+
+   for(int i = 0; i < 3; i++)
+   {
+      ponto1[i] = pontoPlano[i] + C[i];
+      ponto2[i] = pontoPlano[i] + D[i];
+      ponto3[i] = pontoPlano[i] - C[i];
+      ponto4[i] = pontoPlano[i] - D[i];
+   }
 }
 
 void separaEquacao(const char *equacao, float *a, float *b, float *c, float *d) {
@@ -132,36 +169,6 @@ void separaEquacao(const char *equacao, float *a, float *b, float *c, float *d) 
             }
         }
     }
-}
-
-void pegaVetorNormal(const char *equacao, float normal[3]) 
-{
-    float a, b, c, d;
-    separaEquacao(equacao, &a, &b, &c, &d);
-    normal[0] = a;
-    normal[1] = b;
-    normal[2] = c;
-}
-
-void tornaNormal(float normal[3]) 
-{
-    float tamanho = modulo(normal);
-    normal[0] /= tamanho;
-    normal[1] /= tamanho;
-    normal[2] /= tamanho;
-}
-
-void projecaoDoPontoPlano(float normal[3], float pontoPlano[3], float pontoForaPlano[3], float resultante[3]) 
-{
-   
-   tornaNormal(normal);
-
-   float AP[3] = {pontoForaPlano[0] - pontoPlano[0], pontoForaPlano[1] - pontoPlano[1], pontoForaPlano[2] - pontoPlano[2]};
-   float distancia = produtoInterno(AP, normal);
-
-   resultante[0] = pontoForaPlano[0] - distancia * normal[0];
-   resultante[1] = pontoForaPlano[1] - distancia * normal[1];
-   resultante[2] = pontoForaPlano[2] - distancia * normal[2];
 }
 
 /*char* equacaoGeral(float ponto[3], float vNormal[3]) 

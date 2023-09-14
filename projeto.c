@@ -14,10 +14,10 @@ void switchCase()
 	switch (subItemAtual)  
 	{
         case EQUACAO_GERAL_DO_PLANO:
-				//equacaoGeralDoPlano();
+				equacaoGeralDoPlano();
             break;
         case POR_PONTO_VETOR_NORMAL:
-				//pontoVetorNormal();
+				pontoVetorNormal();
             break;
         case POR_PONTO_2_VETORES:
 				//pontoDoisVetores();

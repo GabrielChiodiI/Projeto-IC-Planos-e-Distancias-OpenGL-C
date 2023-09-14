@@ -8,8 +8,9 @@ void criaVetor(float *, float *);
 void criaPlano(float *, float *, float *, float *);
 void geraLinhas(float *, float *, float *, float *, float);
 void espacoCartesiano(float);
-/*void equacaoGeralDoPlano();
+void equacaoGeralDoPlano();
 void pontoVetorNormal();
+/*
 void pontoDoisVetores();*/
 void doisPontos();
 void pontoReta();

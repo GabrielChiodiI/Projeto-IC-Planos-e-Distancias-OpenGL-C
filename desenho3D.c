@@ -155,22 +155,29 @@ void espacoCartesiano(float tamanho)
 	glEnd();
 }
 
-/*void equacaoGeralDoPlano()
+void equacaoGeralDoPlano()
 {
-	pegaVetorNormal(, );
-	criaPlanoGeral(, , , , , );
-	criaPlano(, , , );
+	char equacao[50] = "3x + 2y − z + 1 = 0";
+	float pontoPlano[3] = {4, -2, 9}; 
+	float vetorNormal[3] = {3, -2, 9}, ponto1[3], ponto2[3], ponto3[3], ponto4[3];
+	criaPlanoGeral(pontoPlano, vetorNormal, ponto1, ponto2, ponto3, ponto4);
+	criaPlano(ponto1, ponto2, ponto3, ponto4);
 }
 
 void pontoVetorNormal()
 {
-	criaPonto();
-	criaVetorDiretor(, , );
-	criaVetor(, );
-	criaPlanoGeral(, , , , , );
-	criaPlano(, , , );
+	char equacao[50] = "3x + 2y − z + 1 = 0";
+	float pontoPlano[3] = {4, -2, 9}; 
+	float vetorNormal[3] = {3, -2, 9}, ponto1[3], ponto2[3], ponto3[3], ponto4[3];
+	float pontoInicioDiretor[3], pontoFimDiretor[3], pontoVetor[3];
+	criaPonto(pontoPlano);
+	intersecaoVetorPlano(vetorNormal, pontoPlano, pontoVetor);
+	criaVetorDiretor(vetorNormal, pontoPlano, pontoInicioDiretor, pontoFimDiretor);
+	criaVetor(pontoInicioDiretor, pontoFimDiretor);
+	criaPlanoGeral(pontoPlano, vetorNormal, ponto1, ponto2, ponto3, ponto4);
+	criaPlano(ponto1, ponto2, ponto3, ponto4);
 }
-
+/*
 void pontoDoisVetores()
 {
 	criaPonto();
@@ -221,6 +228,8 @@ void pontoReta()
 
 void duasRetas()
 {
+	float pontoForaReta[3] = {2, 1, 4}, pontoReta[3] = {-1, 2, 3}, vetorDiretor[3] = {2, -1, -2};
+	float pontoInicioDiretor[3], pontoFimDiretor[3], retaDistanciaPontos[3], pontoProjetado[3];
 	criaPonto();
 	criaVetorDiretor(, , );
 	criaVetor(, );

@@ -10,6 +10,7 @@ void distanciaPontoReta(float, float, float, float, float, float, float, float, 
 void projecaoDoPontoVetor(float *, float *, float *, float *);
 void subtraiVetor(float *, float *, float *);
 void criaVetorDiretor(float *, float *, float *,float *);
+void intersecaoVetorPlano(float *, float *, float *);
 void criaPlanoGeral(float *, float *, float *, float *, float *, float *);
 char* equacaoGeral(float *, float *);
 void pegaVetorNormal(const char *, float *);
