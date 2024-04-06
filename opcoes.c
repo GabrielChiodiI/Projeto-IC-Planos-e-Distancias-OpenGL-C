@@ -31,25 +31,25 @@ bool mouseSobreDistancias = false;
 ItemMenu menuPlano = {
     "Plano",
     false,
-    -55, 20, ITEM_WIDTH, ITEM_HEIGHT,
+    -90, 60, ITEM_WIDTH, ITEM_HEIGHT,
     {
-        {"Equacao geral do plano", -50, 16, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, EQUACAO_GERAL_DO_PLANO},
-        {"Ponto/ vetor normal", -50, 16 - SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, POR_PONTO_VETOR_NORMAL},
-        {"Ponto/ 2 vetores", -50, 16 - 2 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, POR_PONTO_2_VETORES},
+        {"Equacao geral do plano", -80, 60 - 1 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, EQUACAO_GERAL_DO_PLANO},
+        {"Ponto/ vetor normal", -80, 60 - 2 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, POR_PONTO_VETOR_NORMAL},
+        {"Ponto/ 2 vetores", -80, 60 - 3 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, POR_PONTO_2_VETORES},
     }
 };
 
 ItemMenu menuDistancias = {
     "Distancias",
     false,
-    -55, 4, ITEM_WIDTH, ITEM_HEIGHT,
+    -90, 60 - 4 * SUBITEM_HEIGHT, ITEM_WIDTH, ITEM_HEIGHT,
     {
-        {"Dois Pontos", -50, 0, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, DOIS_PONTOS},
-        {"Ponto/ Reta", -50, 0 - SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, PONTO_RETA},
-        {"Ponto/ Plano", -50, 0 - 2 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, PONTO_PLANO},
-        {"Duas Retas", -50, 0 - 3 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, DUAS_RETAS},
-        {"Reta/ Plano", -50, 0 - 4 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, RETA_PLANO},
-        {"Dois Planos", -50, 0 - 5 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, DOIS_PLANOS}
+        {"Dois Pontos", -80, 60 - 5 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, DOIS_PONTOS},
+        {"Ponto/ Reta", -80, 60 - 6 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, PONTO_RETA},
+        {"Ponto/ Plano", -80, 60 - 7 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, PONTO_PLANO},
+        {"Duas Retas", -80, 60 - 8 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, DUAS_RETAS},
+        {"Reta/ Plano", -80, 60 - 9 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, RETA_PLANO},
+        {"Dois Planos", -80, 60 - 10 * SUBITEM_HEIGHT, SUBITEM_WIDTH, SUBITEM_HEIGHT, false, DOIS_PLANOS}
     }
 };
 
@@ -114,7 +114,20 @@ void desenhaSubItens(ItemMenu item) {
     }
 }
 
-void desenhaMenu() {
+void desenhaDivisoria(){
+
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+		glVertex2f(-5, 50);
+		glVertex2f(-5, -15);
+	glEnd();
+
+}
+
+void desenhaMenu(){
+
+    desenhaDivisoria();
+
     desenhaItemMenu(menuPlano, mouseSobrePlano);
     if (menuPlano.isExpandido) {
         desenhaSubItens(menuPlano);

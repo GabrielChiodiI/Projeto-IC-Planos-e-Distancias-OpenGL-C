@@ -49,10 +49,6 @@ void desenhaSubJanela1()
 	glLoadIdentity();
 	glClearColor(0.01, 0.03, 0.08, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (ativa)
-		desenhaCaixaDeTextoAtiva();
-   else 
-		desenhaCaixaDeTextoInativa();
 	desenhaMenu();
 	glutSwapBuffers();
 }
@@ -101,10 +97,7 @@ void redimensiona(GLsizei largura, GLsizei altura)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	if (divisa > altura) 
-		gluOrtho2D(-60.0, 60.0, -60.0, 60.0);
-	else
-		gluOrtho2D(-60.0, 60.0, -60.0, 60.0);
+	gluOrtho2D(-100.0, 100.0, -100.0, 100.0);
 	glutPostRedisplay();
 
 	glutSetWindow(subJanela2);
