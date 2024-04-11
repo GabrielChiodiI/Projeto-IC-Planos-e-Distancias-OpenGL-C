@@ -53,14 +53,12 @@ ItemMenu menuDistancias = {
     }
 };
 
-bool dentroDoRetangulo(ItemMenu item) {
-    return (mouseX >= item.x) && (mouseX <= item.x + item.largura) 
-           && (mouseY >= item.y) && (mouseY <= item.y + item.altura);
+bool dentroDoRetangulo(float x, float y, float largura, float altura) {
+    return (mouseX >= x) && (mouseX <= x + largura) && (mouseY >= y) && (mouseY <= y + altura);
 }
 
 bool dentroDoSubItem(SubItem subitem) {
-    return (mouseX >= subitem.x) && (mouseX <= subitem.x + subitem.largura) 
-           && (mouseY >= subitem.y) && (mouseY <= subitem.y + subitem.altura);
+    return dentroDoRetangulo(subitem.x, subitem.y, subitem.largura, subitem.altura);
 }
 
 void acaoSubItem(SubItemSelecionado subItem) {
@@ -70,13 +68,15 @@ void acaoSubItem(SubItemSelecionado subItem) {
 }
 
 void desenhaDestaque(float x, float y, float largura, float altura) {
-    glColor3f(0.9, 0.3, 0.3);  // cor vermelha para destaque
+    glColor3f(0.9, 0.3, 0.3); // cor vermelha para destaque
+    glPushMatrix(); // Usa push e pop para não afetar outras transformações
     glBegin(GL_LINE_LOOP);
         glVertex2f(x, y);
         glVertex2f(x + largura, y);
         glVertex2f(x + largura, y + altura);
         glVertex2f(x, y + altura);
     glEnd();
+    glPopMatrix();
 }
 
 void desenhaTexto(char *texto, float x, float y) {
@@ -118,9 +118,9 @@ void desenhaDivisoria(){
 
     glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_LINES);
-		glVertex2f(-5, 50);
-		glVertex2f(-5, -15);
-	glEnd();
+        glVertex2f(-5, 50);
+        glVertex2f(-5, -15);
+    glEnd();
 
 }
 
@@ -146,11 +146,18 @@ void atualizaSubItensMouseSobre(ItemMenu *menu, int subItemsCount) {
 }
 
 void movimentoMouse(int x, int y) {
-    mouseX = (float)x / 10 - 60;
-    mouseY = 60 - (float)y / 10;
+    // Convertendo as coordenadas do sistema da janela para o sistema de coordenadas OpenGL
+    // Supondo que a origem (0,0) do OpenGL está no centro da janela e o tamanho da janela é conhecido
+    int larguraJanela = glutGet(GLUT_WINDOW_WIDTH);
+    int alturaJanela = glutGet(GLUT_WINDOW_HEIGHT);
 
-    mouseSobrePlano = dentroDoRetangulo(menuPlano);
-    mouseSobreDistancias = dentroDoRetangulo(menuDistancias);
+    // Conversão das coordenadas do mouse para que (0,0) seja o centro da janela
+    mouseX = ((float)x - (larguraJanela / 2)) * (100.0 / (larguraJanela / 2));
+    mouseY = ((alturaJanela / 2) - (float)y) * (100.0 / (alturaJanela / 2));
+
+    // Atualização dos estados de mouse sobre itens e subitens
+    mouseSobrePlano = dentroDoRetangulo(menuPlano.x, menuPlano.y, menuPlano.largura, menuPlano.altura);
+    mouseSobreDistancias = dentroDoRetangulo(menuDistancias.x, menuDistancias.y, menuDistancias.largura, menuDistancias.altura);
 
     if (menuPlano.isExpandido) {
         atualizaSubItensMouseSobre(&menuPlano, 3);
@@ -172,18 +179,21 @@ void acaoCliqueSubItem(ItemMenu *menu, int subItemsCount) {
 }
 
 void mouseSubJanela1(int button, int state, int x, int y) {
-    mouseX = (float)x / 10 - 60;
-    mouseY = 60 - (float)y / 10;
-
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        if (dentroDoRetangulo(menuPlano)) {
+        // Converte a posição do clique para coordenadas OpenGL
+        int larguraJanela = glutGet(GLUT_WINDOW_WIDTH);
+        int alturaJanela = glutGet(GLUT_WINDOW_HEIGHT);
+        mouseX = ((float)x - (larguraJanela / 2)) * (100.0 / (larguraJanela / 2));
+        mouseY = ((alturaJanela / 2) - (float)y) * (100.0 / (alturaJanela / 2));
+
+        // Verifica se o clique foi sobre os itens principais do menu
+        if (dentroDoRetangulo(menuPlano.x, menuPlano.y, menuPlano.largura, menuPlano.altura)) {
             menuPlano.isExpandido = !menuPlano.isExpandido;
-            glutPostRedisplay();
-        } else if (dentroDoRetangulo(menuDistancias)) {
+        } else if (dentroDoRetangulo(menuDistancias.x, menuDistancias.y, menuDistancias.largura, menuDistancias.altura)) {
             menuDistancias.isExpandido = !menuDistancias.isExpandido;
-            glutPostRedisplay();
         }
 
+        // Trata cliques nos subitens, se necessário
         if (menuPlano.isExpandido) {
             acaoCliqueSubItem(&menuPlano, 3);
         }
@@ -191,5 +201,7 @@ void mouseSubJanela1(int button, int state, int x, int y) {
         if (menuDistancias.isExpandido) {
             acaoCliqueSubItem(&menuDistancias, 6);
         }
+
+        glutPostRedisplay();
     }
 }
