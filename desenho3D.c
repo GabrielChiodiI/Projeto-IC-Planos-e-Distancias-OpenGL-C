@@ -160,7 +160,7 @@ void equacaoGeralDoPlano()
 	char equacao[50] = "3x + 2y − z + 1 = 0";
 	float pontoPlano[3] = {4, -2, 9}; 
 	float vetorNormal[3] = {3, -2, 9}, ponto1[3], ponto2[3], ponto3[3], ponto4[3];
-	criaPlanoGeral(pontoPlano, vetorNormal, ponto1, ponto2, ponto3, ponto4);
+	criaPlanoGeral(vetorNormal, pontoPlano, ponto1, ponto2, ponto3, ponto4);
 	criaPlano(ponto1, ponto2, ponto3, ponto4);
 }
 
@@ -174,10 +174,10 @@ void pontoVetorNormal()
 	intersecaoVetorPlano(vetorNormal, pontoPlano, pontoVetor);
 	criaVetorDiretor(vetorNormal, pontoPlano, pontoInicioDiretor, pontoFimDiretor);
 	criaVetor(pontoInicioDiretor, pontoFimDiretor);
-	criaPlanoGeral(pontoPlano, vetorNormal, ponto1, ponto2, ponto3, ponto4);
+	criaPlanoGeral(vetorNormal, pontoPlano, ponto1, ponto2, ponto3, ponto4);
 	criaPlano(ponto1, ponto2, ponto3, ponto4);
 }
-/*
+
 void pontoDoisVetores()
 {
 	criaPonto();
@@ -190,7 +190,7 @@ void pontoDoisVetores()
 	criaVetor(, );
 	criaPlanoGeral(, , , , , );
 	criaPlano(, , , );
-}*/
+}
 
 void doisPontos()
 {

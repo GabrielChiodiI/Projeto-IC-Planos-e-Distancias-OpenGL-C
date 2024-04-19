@@ -15,6 +15,7 @@ typedef struct {
     float x, y, largura, altura;
     bool mouseSobreSubItem;
     SubItemSelecionado tipo; // Novo campo
+    char descricao[500];
 } SubItem;
 
 typedef struct {
@@ -79,6 +80,14 @@ void desenhaDestaque(float x, float y, float largura, float altura) {
     glPopMatrix();
 }
 
+void desenhaDescricao(char *descricao, float x, float y) {
+    glColor3f(0.5, 0.5, 0.5); // cor cinza para a descrição
+    glRasterPos2f(x, y - 10); // Posiciona um pouco abaixo do subitem
+    for (int i = 0; descricao[i] != '\0'; i++) {
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, descricao[i]);
+    }
+}
+
 void desenhaTexto(char *texto, float x, float y) {
     glColor3f(1.0, 1.0, 1.0); // cor branca
     glRasterPos2f(x, y);
@@ -110,6 +119,7 @@ void desenhaSubItens(ItemMenu item) {
 
         if (item.subItens[i].mouseSobreSubItem) {
             desenhaDestaque(item.subItens[i].x, item.subItens[i].y, item.subItens[i].largura, item.subItens[i].altura);
+            desenhaDescricao(item.subItens[i].descricao, item.subItens[i].x, item.subItens[i].y);
         }
     }
 }
